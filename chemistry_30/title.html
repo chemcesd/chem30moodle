@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Title Frame</title>
+        <link rel="stylesheet" type="text/css" href="css/framework_default.css" />
+    </head>
+    
+    <body>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <!-- Banner -->
+                <script type="text/JavaScript">
+                /*<![CDATA[*/
+                    var unit = 0;
+                    var bannerImage = "images/unit0_title.jpg";
+                    var bannerImageSlinky = "images/unit0_title_slinky.jpg";
+                    
+                    //Grab the incoming level 1 in order to figure out the unit value.
+                    if (parent.window.location.search.indexOf("l2") > -1) unit = parent.window.location.search.substring(parent.window.location.search.indexOf("l2=") + 3, parent.window.location.search.indexOf("l2=") + 4);
+                    
+                    //Build the image source string based on the incoming unit value.
+                    if (unit != 0)
+                    {
+                        bannerImage = "images/unit" + unit + "_title.jpg";
+                        bannerImageSlinky = "images/unit" + unit + "_title_slinky.jpg";
+                    }
+                    
+                    document.write('<td><img src="' + bannerImage + '" alt="Chemistry 30" title="Chemistry 30" /></td>');
+                    document.write('<td class="slinkyCell" style="background: url(' + bannerImageSlinky + ') top left repeat-x;"></td>');
+                /*]]>*/
+                </script>
+            </tr>
+        </table>
+    </body>
+</html>

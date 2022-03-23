@@ -1,0 +1,123 @@
+body 
+{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+	overflow: hidden;
+}
+
+table
+{
+	width: 100%;
+	height: 100%;
+	border: 0px;
+}
+
+.banner 
+{
+	background-color: #005b94;
+	border-bottom: solid #005b94 1px;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+	height: 81px;
+}
+
+.slinkyCell
+{
+	width: 100%;
+	text-align: right;
+	padding-right: 5px;
+}
+
+.slinkyCell a
+{
+	font-size: 8pt;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.slinkyCell a:hover
+{
+	text-decoration: underline;
+}
+
+.customize
+{
+	position: absolute;
+	top: 0px;
+	right: 20px;
+	text-align: right;
+}
+
+.customize a
+{
+	color: #000000;
+}
+
+.customize img
+{
+	border: 0px;
+}
+
+.customizePanel
+{
+	position: absolute;
+	top: 2px;
+	left: 70px;
+	visibility: hidden;
+}
+
+.menu
+{
+	width: 225px;
+	background-color: #005b94;
+	border-right: solid #FFFFFF 1px;
+}
+
+.content
+{
+	height: 100%;
+	width: 100%;
+	padding-left: 10px;
+}
+
+.box
+{
+	float: left;
+	font-style: italic;
+	border: 0px solid #CCC;
+	width: 85px;
+	height: 85px;
+	margin: 6px;
+	padding: 6px;
+	font-size: 100%;
+	background-color: #FFFFFF;
+	text-align: center
+}
+
+.footer
+{
+	clear: both;
+	margin: 0px;
+	padding: 5px 0px 0px 0px;
+	height: 25px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	/*background-image: url(../images/bg_green.jpg);*/
+	background-color: #005b94;
+	text-align: center;
+	color: #FFFFFF;
+	font-size: 80%;
+}
+
+.footer a
+{
+	text-decoration: underline;
+	color: #FFFFFF;
+	border-bottom: 0px;
+}
+
+.footer a:hover 
+{ 
+	text-decoration: underline;
+}

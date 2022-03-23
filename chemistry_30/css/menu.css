@@ -1,0 +1,45 @@
+body 
+{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	background-color:#005b94;
+	color: #ffffff;
+	margin : 0px;
+	padding : 0px;
+	border : 0px;
+}
+
+img
+{
+	vertical-align: middle;
+	border: 0px;
+}
+
+a
+{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+a:hover
+{
+	color: #FFFFFF;
+	text-decoration: underline;
+}
+
+.selected
+{
+	background-color: #BFE8FF;
+}
+
+.selected a
+{
+	color: #000000;
+	text-decoration: none;
+}
+
+.selected a:hover
+{
+	color: #000000;
+	text-decoration: underline;
+}

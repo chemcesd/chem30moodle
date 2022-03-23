@@ -1,0 +1,101 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <meta name="Identifier" content="DLRB Chemistry 30" />
+	    <meta name="Catalog" content="URI" />
+	    <meta name="Entry" content="chemistry_30/index.html" />
+        <meta name="Catalog" content="Alberta Education" />
+	    <meta name="Entry" content="ISBN 978-0-7741-3172-8" />
+        <meta name="Title" content="Chemistry 30 Learn EveryWare Online Course" />
+        <meta name="Language" content="en" />
+        <meta name="Description" content="Chemistry 30 is a course with four units - Unit A - Thermal Chemical Changes, Unit B - Electrochemical Changes, Unit C Chemical Changes of Organic Compounds and Unit D - Chemical Equilibrium Focusing on Acid-Base Systems." />
+        <meta name="Language" content="en" />
+        <meta name="keywords" content="chemistry, online course, distributed learning, distance education" />
+        <meta name="Contributor Role" content="Publisher" />
+	    <meta name="Entity" content="Alberta Education" />
+	    <meta name="Date" content="2009-8-15" />
+        <meta name="Meta-metadata Identifier" content="" />
+	    <meta name="Catalog" content="ABLearnMeta" />
+	    <meta name="Entry" content="ISBN 978-0-7741-3172-8" />
+        <meta name="metadataschema" content="ABCorev1.0" />
+        <meta name="Technical" content="" /> 
+	    <meta name="Format" content="text/html" />  
+        <meta name="Format" content="application/x-shockwave-flash" /> 
+        <meta name="Format" content="video/quicktime" />  
+        <meta name="Format" content="image/jpeg" /> 
+        <meta name="Technical" content="267000" /> 
+        <meta name="Location" content="chemistry_30/index.html" /> 
+        <meta name="Duration" content="semester" />
+        <meta name="Educational" content="course" /> 
+	    <meta name="Learning Resource Type" content="Lesson materials" />  
+        <meta name="Intended End User Role" content="Learner" /> 
+        <meta name="Intended End User Role" content="Teacher" />
+        <meta name="Rights" content="" /> 
+	    <meta name="Copyright and other Restrictions" content="Yes" />  
+        <meta name="Description" content="Chemistry 30 Learn EveryWare © 2009 Alberta Education" /> 
+        <meta name="Classification" content="" /> 
+	    <meta name="Purpose" content="Educational Discipline" />  
+        <meta name="Entry" content="Chemistry 30" /> 
+        <meta name="Purpose" content="Educational Objectives" />  
+        <meta name="Entry" content="http://www.education.alberta.ca/media/654849/chem2030_07.pdf" />
+        <meta name="Purpose" content="Educational Level" />  
+        <meta name="Entry" content="Grade 12" />
+        
+        <link rel="stylesheet" type="text/css" href="css/framework_default.css" />
+        <script type="text/javascript" language="javascript" src="js/default.js"></script>
+    </head>
+    
+    <body>
+        <script type="text/javascript">
+            //Re-writes the document title and updates the breadcrumbs
+            var title = "Chemistry 30";
+            
+            if (window.location.search.indexOf("title=") > -1) title = window.location.search.substring(window.location.search.indexOf("title=") + 6, window.location.search.length);
+                
+            document.title = title.replace(/%20/g," ");
+            //-->
+        </script>
+        
+        <div class="customize" id="customize" style="display:block;">
+            Banner: 
+            on/<a href="javascript:options('bannerOff')">off</a><br />
+            <a href="javascript:printerFriendly()"><img src="images/printerFriendly.png" alt="Printer friendly version" title="Printer friendly version" /></a>
+        </div>
+        
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <td colspan="2" class="banner" id="banner">
+                    <iframe name="title" id="title" src="title.html" scrolling="no" frameborder="0" height="80px" width="100%"></iframe>
+                </td>
+            </tr>
+            <tr>
+                <td class="menu">
+                    <!-- All you need to do is to edit the runtimeDocs > menu.xml file to add another menu link -->
+                    <iframe name="menuFrame" id="menuFrame" src="menu.html" scrolling="no" frameborder="0" height="100%" width="225px"></iframe>
+                </td>
+                <td class="content">
+                    <!-- Main Content Frame -->
+                        <script type="text/JavaScript">
+		                /*<![CDATA[*/
+		                    //Initialization
+		                    var page = "c30_spl.html";
+            		        
+    		                //Grab the incoming page value.
+		                    if (window.location.search.indexOf("page=") > -1) page = window.location.search.substring(window.location.search.indexOf("page=") + 5, window.location.search.indexOf("&title="));
+							else window.location.href = window.location.href + "?l1=home&page=" + page + "&title=" + title;
+
+    		                //Reload the main frame.
+                            document.write('<iframe name="mainFrame" id="mainFrame" src="' + page + '" scrolling="yes" frameborder="0" height="100%" width="100%"></iframe>');
+                        /*]]>*/
+                        </script>       
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="footer">
+                    <!-- Footer -->
+                    <div id="footer2">Chemistry 30 Learn EveryWare &copy; 2009 <a href="http://www.education.gov.ab.ca/" target="_blank">Alberta Education</a></div>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

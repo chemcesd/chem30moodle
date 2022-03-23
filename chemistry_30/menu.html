@@ -1,0 +1,699 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/tr/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <title>Menu</title>
+        <link rel="stylesheet" type="text/css" href="css/menu.css" />
+        <script language="javascript" src="js/default.js" type="text/javascript"></script>
+    </head>
+    
+    <body>
+		<script type="text/JavaScript">
+		/*<![CDATA[*/
+			//Initialization of the XML objects.
+			var browser = "";
+			var xmlObj;
+			var xmlDoc;
+			
+			//Initialization of other objects.
+            var windowLoc = parent.window.location.search;
+            var l1 = "";
+            var l2 = "";
+            var l3 = "";
+            var l4 = "";
+            var l5 = "";
+            var l6 = "";
+            var imagePath = "";
+            var plusMinusPath = "";
+            var cssTreatment = "";
+            var text = "";
+            var title = "";
+			var oDiv = document.createElement("DIV"); // Create a DIV layer to write the new information into
+			
+            //Grab level 1 ID.
+            if (windowLoc.indexOf("l1=") > -1)
+            {
+                if (windowLoc.indexOf("l2=") > -1) l1 = windowLoc.substring(windowLoc.indexOf("l1=") + 3, windowLoc.indexOf("&l2"));
+                else l1 = windowLoc.substring(windowLoc.indexOf("l1=") + 3, windowLoc.indexOf("&page"));
+            }
+            
+            //Grab level 2 ID.
+            if (windowLoc.indexOf("l2=") > -1)
+            {
+                if (windowLoc.indexOf("l3=") > -1) l2 = windowLoc.substring(windowLoc.indexOf("l2=") + 3, windowLoc.indexOf("&l3"));
+                else l2 = windowLoc.substring(windowLoc.indexOf("l2=") + 3, windowLoc.indexOf("&page"));
+            }
+            
+            //Grab level 3 ID.
+            if (windowLoc.indexOf("l3=") > -1)
+            {
+                if (windowLoc.indexOf("l4=") > -1) l3 = windowLoc.substring(windowLoc.indexOf("l3=") + 3, windowLoc.indexOf("&l4"));
+                else l3 = windowLoc.substring(windowLoc.indexOf("l3=") + 3, windowLoc.indexOf("&page"));
+            }
+            
+            //Grab level 4 ID.
+            if (windowLoc.indexOf("l4=") > -1)
+            {
+                if (windowLoc.indexOf("l5=") > -1) l4 = windowLoc.substring(windowLoc.indexOf("l4=") + 3, windowLoc.indexOf("&l5"));
+                else l4 = windowLoc.substring(windowLoc.indexOf("l4=") + 3, windowLoc.indexOf("&page"));
+            }
+            
+            //Grab level 5 ID.
+            if (windowLoc.indexOf("l5=") > -1)
+            {
+                if (windowLoc.indexOf("l6=") > -1) l5 = windowLoc.substring(windowLoc.indexOf("l5=") + 3, windowLoc.indexOf("&l6"));
+                else l5 = windowLoc.substring(windowLoc.indexOf("l5=") + 3, windowLoc.indexOf("&page"));
+            }
+            
+            //Grab level 6 ID.
+            if (windowLoc.indexOf("l6=") > -1)
+            {
+                l6 = windowLoc.substring(windowLoc.indexOf("l6=") + 3, windowLoc.indexOf("&page"));
+            }
+            
+            //Determine the user's browser.
+            browser = determineBrowser();
+            
+            //Pass the relative path and the user's browser in order to load the XML document.
+			loadXMLPackage("runtimeDocs/menu.xml", browser);
+			
+			//This function parses and displays the XML and is called from the loadXMLPackage function.
+ 			function parseXML()
+ 			{
+ 			    //General Note: there seems to be a discrepency between IE and FireFox/Netscape/Safari when accessing the XML nodes in that Netscape and
+ 				//Safari "see" extra nodes that are blank. I believe this has something to do with the whitespace and all of my attempts to remove
+ 				//this whitespace consistently have failed. Anyway, the quick fix is to take each of the nodes that you are attempting to access,
+ 				//multiple by 2 and add 1 for all non-IE browsers. The formula looks like 2x + 1 then.
+ 				if (browser == "IE" || browser == "NN7.x" || browser == "NN8.x" || browser == "FF") xmlObj = xmlDoc.documentElement;
+ 				else xmlObj = xmlDoc.responseXML.getElementsByTagName("menu")[0];
+ 				
+			    //Display XML information.
+                text += "<table cellpadding='0' cellspacing='0' class='menuTable'>";
+                    //Get the total number of Level 1 nodes.
+				    var totalNodes1 = xmlObj.childNodes.length - 1;
+    				
+                    //Loop through all of the Level 1 nodes.
+                    for (i = 0; i <= totalNodes1; i++)
+	                {
+	                    //Retrieve all Level 1 attributes.
+	                    var l1ID = "";
+	                    var l1ImagePath = "";
+	                    var l1LinkPath = "";
+	                    var l1LinkText = "";
+	                    
+	                    //Based on the user's browser, set up the Level 1 variables.
+	                    if (browser == "IE")
+	                    {
+	                        //Internet Explorer method.
+	                        l1ID = xmlObj.childNodes[i].getAttribute("id");
+	                        l1ImagePath = xmlObj.childNodes[i].getAttribute("imagePath");
+	                        l1LinkPath = xmlObj.childNodes[i].getAttribute("linkPath");
+	                        l1LinkText = xmlObj.childNodes[i].getAttribute("linkText");
+	                    }
+	                    else
+	                    {
+	                        try
+						    {
+	                            //All other browsers method.
+	                            l1ID = xmlObj.childNodes[(i * 2) + 1].getAttribute("id");
+	                            l1ImagePath = xmlObj.childNodes[(i * 2) + 1].getAttribute("imagePath");
+	                            l1LinkPath = xmlObj.childNodes[(i * 2) + 1].getAttribute("linkPath");
+	                            l1LinkText = xmlObj.childNodes[(i * 2) + 1].getAttribute("linkText");
+	                        }
+	                        catch(e)
+	                        {
+	                        }
+	                    }
+	                    
+	                    //Check to ensure that the image path insn't blank, if it is, then this is a blank node and shouldn't be displayed.
+	                    if (l1ImagePath != "")
+	                    {
+	                        //Display level 1 information.
+	                        text += "<tr>";
+	                            text += "<td>";
+	                                //Check the image path from the XML document.
+	                                if (l1ImagePath != "leaf")
+	                                {
+	                                    //The image isn't a leaf, meaning that it contains sub-links, so check to see if this ID has been selected, or opened.
+	                                    if (l1ID == l1)
+	                                    {
+	                                        //Set the image to the open book version and the plusMinus path to the minus sign, indicating that this ID has been selected.
+	                                        imagePath = l1ImagePath.replace("_","_open_");
+	                                        plusMinusPath = "minus.gif";
+	                                    }
+	                                    else
+	                                    {
+	                                        //Set the image to the closed book version and the plusMinus path to the plus sign, indicating that this ID hasn't been selected and there's more below it.
+	                                        imagePath = l1ImagePath;
+	                                        plusMinusPath = "plus.gif";
+	                                    }
+	                                }
+	                                else
+	                                {
+	                                    //There aren't any nodes past this level in the XML document, so set the image to the leaf and don't show a plusMinus image.
+	                                    imagePath = l1ImagePath;
+	                                    plusMinusPath = "blank.gif";
+	                                }
+        	                        
+	                                //If this node is selected, change the CSS treatment of it.
+	                                if (l1ID == l1 && l2.length == 0) cssTreatment = "selected";
+	                                else cssTreatment = "unselected";
+        	                        
+        	                        //Set up the title variable.
+        	                        title = l1LinkText;
+        	                        
+	                                text += "<table cellpadding='0' cellspacing='0'>";
+	                                    text += "<tr>";
+	                                        text += "<td>";
+	                                            text += "<a href='index.html?l1=" + l1ID + "&page=" + l1LinkPath + "&title=" + title + "' target='_top'><img src='images/img/" + plusMinusPath + "' alt='" + l1LinkText + "' /><img src='images/img/" + imagePath + ".gif' alt='" + l1LinkText + "' /></a>&nbsp;";
+	                                        text += "</td>";
+	                                        text += "<td class='" + cssTreatment + "'>";
+	                                            text += "<a href='index.html?l1=" + l1ID + "&page=" + l1LinkPath + "&title=" + title + "' target='_top'>" + l1LinkText + "</a>";
+	                                        text += "</td>";
+	                                    text += "</tr>";
+	                                text += "</table>";
+	                            text += "</td>";
+	                        text += "</tr>";
+	                    }
+    	                
+    	                //If this level has been selected, show all of the nodes below it.
+	                    if (l1ID == l1)
+	                    {
+	                        //Get the total number of Level 2 nodes.
+				            var totalNodes2;
+				            
+				            try
+				            {
+				                if (browser == "IE") totalNodes2 = xmlObj.childNodes[i].childNodes.length - 1;
+				                else totalNodes2 = xmlObj.childNodes[(i * 2) + 1].childNodes.length - 1;
+    	                    }
+    	                    catch(e)
+    	                    {
+    	                    }
+    	                    
+	                        //Loop through all of the level 2 nodes.
+	                        for (i2 = 0; i2 <= totalNodes2; i2++)
+	                        {
+	                            //Retrieve all Level 2 attributes.
+	                            var l2ID = "";
+	                            var l2ImagePath = "";
+	                            var l2LinkPath = "";
+	                            var l2LinkText = "";
+        	                    
+	                            //Based on the user's browser, set up the Level 1 variables.
+	                            if (browser == "IE")
+	                            {
+	                                //Internet Explorer method.
+	                                l2ID = xmlObj.childNodes[i].childNodes[i2].getAttribute("id");
+	                                l2ImagePath = xmlObj.childNodes[i].childNodes[i2].getAttribute("imagePath");
+	                                l2LinkPath = xmlObj.childNodes[i].childNodes[i2].getAttribute("linkPath");
+	                                l2LinkText = xmlObj.childNodes[i].childNodes[i2].getAttribute("linkText");
+	                            }
+	                            else
+	                            {
+	                                try
+						            {
+	                                    //All other browsers method.
+	                                    l2ID = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].getAttribute("id");
+	                                    l2ImagePath = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].getAttribute("imagePath");
+	                                    l2LinkPath = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].getAttribute("linkPath");
+	                                    l2LinkText = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].getAttribute("linkText");
+	                                }
+	                                catch(e)
+	                                {
+	                                }
+	                            }
+    	                        
+    	                        //Check to ensure that the image path insn't blank, if it is, then this is a blank node and shouldn't be displayed.
+    	                        if (l2ImagePath != "")
+    	                        {
+	                                //Display level 2 information.
+	                                text += "<tr>";
+	                                    text += "<td>";
+	                                        //Check the image path from the XML document.
+	                                        if (l2ImagePath != "leaf")
+	                                        {
+	                                            //The image isn't a leaf, meaning that it contains sub-links, so check to see if this ID has been selected, or opened.
+	                                            if (l2ID == l2)
+	                                            {
+	                                                //Set the image to the open book version and the plusMinus path to the minus indicating that this ID has been selected.
+	                                                imagePath = l2ImagePath.replace("_","_open_");
+	                                                plusMinusPath = "minus.gif";
+	                                            }
+	                                            else
+	                                            {
+	                                                //Set the image to the closed book version and the plusMinus path to the plus indicating that this ID hasn't been selected and there's more below it.
+	                                                imagePath = l2ImagePath;
+	                                                plusMinusPath = "plus.gif";
+	                                            }
+	                                        }
+	                                        else
+	                                        {
+	                                            //There aren't any nodes past this level in the XML document, so set the image to the leaf and don't show a plusMinus image.
+	                                            imagePath = l2ImagePath;
+	                                            plusMinusPath = "blank.gif";
+	                                        }
+        	                                
+	                                        //If this node is selected, change the CSS treatment of it.
+	                                        if (l2ID == l2 && l3.length == 0) cssTreatment = "selected";
+	                                        else cssTreatment = "unselected";
+            		                        
+            		                        //Set up the title variable.
+        	                                title = l1LinkText + ": " + l2LinkText;
+        	                        
+	                                        text += "<table cellpadding='0' cellspacing='0'>";
+	                                            text += "<tr>";
+	                                                text += "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+	                                                text += "<td width='40'>";
+	                                                    text += "<a href='index.html?l1=" + l1ID + "&l2=" + l2ID + "&page=" + l2LinkPath + "&title=" + title + "' target='_top'><img src='images/img/" + plusMinusPath + "' alt='" + l2LinkText + "' /><img src='images/img/" + imagePath + ".gif' alt='" + l2LinkText + "' /></a>&nbsp;";
+	                                                text += "</td>";
+	                                                text += "<td class='" + cssTreatment + "'>";
+	                                                    text += "<a href='index.html?l1=" + l1ID + "&l2=" + l2ID + "&page=" + l2LinkPath + "&title=" + title + "' target='_top'>" + l2LinkText + "</a>";
+	                                                text += "</td>";
+	                                            text += "</tr>";
+	                                        text += "</table>";
+	                                    text += "</td>";
+	                                text += "</tr>";
+	                            }
+    	                        
+    	                        //If this level has been selected, show all of the nodes below it.
+	                            if (l2ID == l2)
+	                            {
+	                                //Get the total number of Level 3 nodes.
+				                    var totalNodes3;
+				                    
+				                    try
+				                    {
+				                        if (browser == "IE") totalNodes3 = xmlObj.childNodes[i].childNodes[i2].childNodes.length - 1;
+				                        else totalNodes3 = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes.length - 1;
+        		                    }
+        		                    catch(e)
+        		                    {
+        		                    }
+        		                    
+    		                        //Loop through all of the level 3 nodes.
+	                                for (i3 = 0; i3 <= totalNodes3; i3++)
+	                                {
+	                                    //Retrieve all Level 3 attributes.
+	                                    var l3ID = "";
+	                                    var l3ImagePath = "";
+	                                    var l3LinkPath = "";
+	                                    var l3LinkText = "";
+                	                    
+	                                    //Based on the user's browser, set up the Level 1 variables.
+	                                    if (browser == "IE")
+	                                    {
+	                                        //Internet Explorer method.
+	                                        l3ID = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].getAttribute("id");
+	                                        l3ImagePath = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].getAttribute("imagePath");
+	                                        l3LinkPath = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].getAttribute("linkPath");
+	                                        l3LinkText = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].getAttribute("linkText");
+	                                    }
+	                                    else
+	                                    {
+	                                        try
+						                    {
+	                                            //All other browsers method.
+	                                            l3ID = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].getAttribute("id");
+	                                            l3ImagePath = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].getAttribute("imagePath");
+	                                            l3LinkPath = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].getAttribute("linkPath");
+	                                            l3LinkText = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].getAttribute("linkText");
+	                                        }
+	                                        catch(e)
+	                                        {
+	                                        }
+	                                    }
+        	                            
+        	                            //Check to ensure that the image path insn't blank, if it is, then this is a blank node and shouldn't be displayed.
+        	                            if (l3ImagePath != "")
+        	                            {
+	                                        //Display level 3 information.
+	                                        text += "<tr>";
+	                                            text += "<td>";
+	                                                //Check the image path from the XML document.
+	                                                if (l3ImagePath != "leaf")
+	                                                {
+	                                                    //The image isn't a leaf, meaning that it contains sub-links, so check to see if this ID has been selected, or opened.
+	                                                    if (l3ID == l3)
+	                                                    {
+	                                                        //Set the image to the open book version and the plusMinus path to the minus indicating that this ID has been selected.
+	                                                        imagePath = l3ImagePath.replace("_","_open_");
+	                                                        plusMinusPath = "minus.gif";
+	                                                    }
+	                                                    else
+	                                                    {
+	                                                        //Set the image to the closed book version and the plusMinus path to the plus indicating that this ID hasn't been selected and there's more below it.
+	                                                        imagePath = l3ImagePath;
+	                                                        plusMinusPath = "plus.gif";
+	                                                    }
+	                                                }
+	                                                else
+	                                                {
+	                                                    //There aren't any nodes past this level in the XML document, so set the image to the leaf and don't show a plusMinus image.
+	                                                    imagePath = l3ImagePath;
+	                                                    plusMinusPath = "blank.gif";
+	                                                }
+        	                                        
+	                                                //If this node is selected, change the CSS treatment of it.
+	                                                if (l3ID == l3 && l4.length == 0) cssTreatment = "selected";
+	                                                else cssTreatment = "unselected";
+                    		                        
+                    		                        //Set up the title variable.
+        	                                        title = l1LinkText + ": " + l2LinkText + ": " + l3LinkText;
+        	                                
+	                                                text += "<table cellpadding='0' cellspacing='0'>";
+	                                                    text += "<tr>";
+	                                                        text += "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+	                                                        text += "<td width='40'>";
+	                                                            text += "<a href='index.html?l1=" + l1ID + "&l2=" + l2ID + "&l3=" + l3ID + "&page=" + l3LinkPath + "&title=" + title + "' target='_top'><img src='images/img/" + plusMinusPath + "' alt='" + l3LinkText + "' /><img src='images/img/" + imagePath + ".gif' alt='" + l3LinkText + "' /></a>&nbsp;";
+	                                                        text += "</td>";
+	                                                        text += "<td class='" + cssTreatment + "'>";
+	                                                            text += "<a href='index.html?l1=" + l1ID + "&l2=" + l2ID + "&l3=" + l3ID + "&page=" + l3LinkPath + "&title=" + title + "' target='_top'>" + l3LinkText + "</a>";
+	                                                        text += "</td>";
+	                                                    text += "</tr>";
+	                                                text += "</table>";
+	                                            text += "</td>";
+	                                        text += "</tr>";
+    	                                }
+    	                                
+    	                                //If this level has been selected, show all of the nodes below it.
+	                                    if (l3ID == l3)
+	                                    {
+	                                        //Get the total number of Level 4 nodes.
+				                            var totalNodes4;
+				                            
+				                            try
+				                            {
+				                                if (browser == "IE") totalNodes4 = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].childNodes.length - 1;
+				                                else totalNodes4 = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].childNodes.length - 1;
+                		                    }
+                		                    catch(e)
+                		                    {
+                		                    }
+                		                    
+            		                        //Loop through all of the level 4 nodes.
+	                                        for (i4 = 0; i4 <= totalNodes4; i4++)
+	                                        {
+	                                            //Retrieve all Level 4 attributes.
+	                                            var l4ID = "";
+	                                            var l4ImagePath = "";
+	                                            var l4LinkPath = "";
+	                                            var l4LinkText = "";
+                        	                    
+	                                            //Based on the user's browser, set up the Level 1 variables.
+	                                            if (browser == "IE")
+	                                            {
+	                                                //Internet Explorer method.
+	                                                l4ID = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].childNodes[i4].getAttribute("id");
+	                                                l4ImagePath = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].childNodes[i4].getAttribute("imagePath");
+	                                                l4LinkPath = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].childNodes[i4].getAttribute("linkPath");
+	                                                l4LinkText = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].childNodes[i4].getAttribute("linkText");
+	                                            }
+	                                            else
+	                                            {
+	                                                try
+						                            {
+	                                                    //All other browsers method.
+	                                                    l4ID = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].childNodes[(i4 * 2) + 1].getAttribute("id");
+	                                                    l4ImagePath = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].childNodes[(i4 * 2) + 1].getAttribute("imagePath");
+	                                                    l4LinkPath = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].childNodes[(i4 * 2) + 1].getAttribute("linkPath");
+	                                                    l4LinkText = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].childNodes[(i4 * 2) + 1].getAttribute("linkText");
+	                                                }
+	                                                catch(e)
+	                                                {
+	                                                }
+	                                            }
+	                                            
+	                                            //Check to ensure that the image path insn't blank, if it is, then this is a blank node and shouldn't be displayed.
+	                                            if (l4ImagePath != "")
+	                                            {
+	                                                //Display level 4 information.
+	                                                text += "<tr>";
+	                                                    text += "<td>";
+	                                                        //Check the image path from the XML document.
+	                                                        if (l4ImagePath != "leaf")
+	                                                        {
+	                                                            //The image isn't a leaf, meaning that it contains sub-links, so check to see if this ID has been selected, or opened.
+	                                                            if (l4ID == l4)
+	                                                            {
+	                                                                //Set the image to the open book version and the plusMinus path to the minus indicating that this ID has been selected.
+	                                                                imagePath = l4ImagePath.replace("_","_open_");
+	                                                                plusMinusPath = "minus.gif";
+	                                                            }
+	                                                            else
+	                                                            {
+	                                                                //Set the image to the closed book version and the plusMinus path to the plus indicating that this ID hasn't been selected and there's more below it.
+	                                                                imagePath = l4ImagePath;
+	                                                                plusMinusPath = "plus.gif";
+	                                                            }
+	                                                        }
+	                                                        else
+	                                                        {
+	                                                            //There aren't any nodes past this level in the XML document, so set the image to the leaf and don't show a plusMinus image.
+	                                                            imagePath = l4ImagePath;
+	                                                            plusMinusPath = "blank.gif";
+	                                                        }
+        	                                                
+	                                                        //If this node is selected, change the CSS treatment of it.
+	                                                        if (l4ID == l4 && l5.length == 0) cssTreatment = "selected";
+	                                                        else cssTreatment = "unselected";
+                            		                        
+                            		                        //Set up the title variable.
+        	                                                title = l1LinkText + ": " + l2LinkText + ": " + l3LinkText + ": " + l4LinkText;
+        	                                
+	                                                        text += "<table cellpadding='0' cellspacing='0'>";
+	                                                            text += "<tr>";
+	                                                                text += "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+	                                                                text += "<td width='40'>";
+	                                                                    text += "<a href='index.html?l1=" + l1ID + "&l2=" + l2ID + "&l3=" + l3ID + "&l4=" + l4ID + "&page=" + l4LinkPath + "&title=" + title + "' target='_top'><img src='images/img/" + plusMinusPath + "' alt='" + l4LinkText + "' /><img src='images/img/" + imagePath + ".gif' alt='" + l4LinkText + "' /></a>&nbsp;";
+	                                                                text += "</td>";
+	                                                                text += "<td class='" + cssTreatment + "'>";
+	                                                                    text += "<a href='index.html?l1=" + l1ID + "&l2=" + l2ID + "&l3=" + l3ID + "&l4=" + l4ID + "&page=" + l4LinkPath + "&title=" + title + "' target='_top'>" + l4LinkText + "</a>";
+	                                                                text += "</td>";
+	                                                            text += "</tr>";
+	                                                        text += "</table>";
+	                                                    text += "</td>";
+	                                                text += "</tr>";
+    	                                        }
+    	                                        
+    	                                        //If this level has been selected, show all of the nodes below it.
+	                                            if (l4ID == l4)
+	                                            {
+	                                                //Get the total number of Level 4 nodes.
+				                                    var totalNodes5;
+				                                    
+				                                    try
+				                                    {
+				                                        if (browser == "IE") totalNodes5 = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].childNodes[i4].childNodes.length - 1;
+				                                        else totalNodes5 = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].childNodes[(i4 * 2) + 1].childNodes.length - 1;
+                        		                    }
+                        		                    catch(e)
+                        		                    {
+                        		                    }
+                        		                    
+                    		                        //Loop through all of the level 5 nodes.
+	                                                for (i5 = 0; i5 <= totalNodes5; i5++)
+	                                                {
+	                                                    //Retrieve all Level 4 attributes.
+	                                                    var l5ID = "";
+	                                                    var l5ImagePath = "";
+	                                                    var l5LinkPath = "";
+	                                                    var l5LinkText = "";
+                                	                    
+	                                                    //Based on the user's browser, set up the Level 1 variables.
+	                                                    if (browser == "IE")
+	                                                    {
+	                                                        //Internet Explorer method.
+	                                                        l5ID = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].childNodes[i4].childNodes[i5].getAttribute("id");
+	                                                        l5ImagePath = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].childNodes[i4].childNodes[i5].getAttribute("imagePath");
+	                                                        l5LinkPath = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].childNodes[i4].childNodes[i5].getAttribute("linkPath");
+	                                                        l5LinkText = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].childNodes[i4].childNodes[i5].getAttribute("linkText");
+	                                                    }
+	                                                    else
+	                                                    {
+	                                                        try
+						                                    {
+	                                                            //All other browsers method.
+	                                                            l5ID = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].childNodes[(i4 * 2) + 1].childNodes[(i5 * 2) + 1].getAttribute("id");
+	                                                            l5ImagePath = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].childNodes[(i4 * 2) + 1].childNodes[(i5 * 2) + 1].getAttribute("imagePath");
+	                                                            l5LinkPath = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].childNodes[(i4 * 2) + 1].childNodes[(i5 * 2) + 1].getAttribute("linkPath");
+	                                                            l5LinkText = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].childNodes[(i4 * 2) + 1].childNodes[(i5 * 2) + 1].getAttribute("linkText");
+	                                                        }
+	                                                        catch(e)
+	                                                        {
+	                                                        }
+	                                                    }
+        	                                            
+        	                                            //Check to ensure that the image path insn't blank, if it is, then this is a blank node and shouldn't be displayed.
+        	                                            if (l5ImagePath != "")
+        	                                            {
+	                                                        //Display level 5 information.
+	                                                        text += "<tr>";
+	                                                            text += "<td>";
+	                                                                //Check the image path from the XML document.
+	                                                                if (l5ImagePath != "leaf")
+	                                                                {
+	                                                                    //The image isn't a leaf, meaning that it contains sub-links, so check to see if this ID has been selected, or opened.
+	                                                                    if (l5ID == l5)
+	                                                                    {
+	                                                                        //Set the image to the open book version and the plusMinus path to the minus indicating that this ID has been selected.
+	                                                                        imagePath = l5ImagePath.replace("_","_open_");
+	                                                                        plusMinusPath = "minus.gif";
+	                                                                    }
+	                                                                    else
+	                                                                    {
+	                                                                        //Set the image to the closed book version and the plusMinus path to the plus indicating that this ID hasn't been selected and there's more below it.
+	                                                                        imagePath = l5ImagePath;
+	                                                                        plusMinusPath = "plus.gif";
+	                                                                    }
+	                                                                }
+	                                                                else
+	                                                                {
+	                                                                    //There aren't any nodes past this level in the XML document, so set the image to the leaf and don't show a plusMinus image.
+	                                                                    imagePath = l5ImagePath;
+	                                                                    plusMinusPath = "blank.gif";
+	                                                                }
+        	                                                        
+	                                                                //If this node is selected, change the CSS treatment of it.
+	                                                                if (l5ID == l5) cssTreatment = "selected";
+	                                                                else cssTreatment = "unselected";
+                                    		                        
+                                    		                        //Set up the title variable.
+        	                                                        title = l1LinkText + ": " + l2LinkText + ": " + l3LinkText + ": " + l4LinkText + ": " + l5LinkText;
+        	                                
+	                                                                text += "<table cellpadding='0' cellspacing='0'>";
+	                                                                    text += "<tr>";
+	                                                                        text += "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+	                                                                        text += "<td width='40'>";
+	                                                                            text += "<a href='index.html?l1=" + l1ID + "&l2=" + l2ID + "&l3=" + l3ID + "&l4=" + l4ID + "&l5=" + l5ID + "&page=" + l5LinkPath + "&title=" + title + "' target='_top'><img src='images/img/" + plusMinusPath + "' alt='" + l5LinkText + "' /><img src='images/img/" + imagePath + ".gif' alt='" + l5LinkText + "' /></a>&nbsp;";
+	                                                                        text += "</td>";
+	                                                                        text += "<td class='" + cssTreatment + "'>";
+	                                                                            text += "<a href='index.html?l1=" + l1ID + "&l2=" + l2ID + "&l3=" + l3ID + "&l4=" + l4ID + "&l5=" + l5ID + "&page=" + l5LinkPath + "&title=" + title + "' target='_top'>" + l5LinkText + "</a>";
+	                                                                        text += "</td>";
+	                                                                    text += "</tr>";
+	                                                                text += "</table>";
+	                                                            text += "</td>";
+	                                                        text += "</tr>";
+	                                                    }
+	                                                    
+	                                                    //If this level has been selected, show all of the nodes below it.
+	                                                    if (l5ID == l5)
+	                                                    {
+	                                                        //Get the total number of Level 4 nodes.
+				                                            var totalNodes6;
+        				                                    
+				                                            try
+				                                            {
+				                                                if (browser == "IE") totalNodes6 = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].childNodes[i4].childNodes[i5].childNodes.length - 1;
+				                                                else totalNodes6 = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].childNodes[(i4 * 2) + 1].childNodes[(i5 * 2) + 1].childNodes.length - 1;
+                        		                            }
+                        		                            catch(e)
+                        		                            {
+                        		                            }
+                                		                    
+                    		                                //Loop through all of the level 5 nodes.
+	                                                        for (i6 = 0; i6 <= totalNodes6; i6++)
+	                                                        {
+	                                                            //Retrieve all Level 4 attributes.
+	                                                            var l6ID = "";
+	                                                            var l6ImagePath = "";
+	                                                            var l6LinkPath = "";
+	                                                            var l6LinkText = "";
+                                        	                    
+	                                                            //Based on the user's browser, set up the Level 1 variables.
+	                                                            if (browser == "IE")
+	                                                            {
+	                                                                //Internet Explorer method.
+	                                                                l6ID = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].childNodes[i4].childNodes[i5].childNodes[i6].getAttribute("id");
+	                                                                l6ImagePath = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].childNodes[i4].childNodes[i5].childNodes[i6].getAttribute("imagePath");
+	                                                                l6LinkPath = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].childNodes[i4].childNodes[i5].childNodes[i6].getAttribute("linkPath");
+	                                                                l6LinkText = xmlObj.childNodes[i].childNodes[i2].childNodes[i3].childNodes[i4].childNodes[i5].childNodes[i6].getAttribute("linkText");
+	                                                            }
+	                                                            else
+	                                                            {
+	                                                                try
+						                                            {
+	                                                                    //All other browsers method.
+	                                                                    l6ID = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].childNodes[(i4 * 2) + 1].childNodes[(i5 * 2) + 1].childNodes[(i6 * 2) + 1].getAttribute("id");
+	                                                                    l6ImagePath = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].childNodes[(i4 * 2) + 1].childNodes[(i5 * 2) + 1].childNodes[(i6 * 2) + 1].getAttribute("imagePath");
+	                                                                    l6LinkPath = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].childNodes[(i4 * 2) + 1].childNodes[(i5 * 2) + 1].childNodes[(i6 * 2) + 1].getAttribute("linkPath");
+	                                                                    l6LinkText = xmlObj.childNodes[(i * 2) + 1].childNodes[(i2 * 2) + 1].childNodes[(i3 * 2) + 1].childNodes[(i4 * 2) + 1].childNodes[(i5 * 2) + 1].childNodes[(i6 * 2) + 1].getAttribute("linkText");
+	                                                                }
+	                                                                catch(e)
+	                                                                {
+	                                                                }
+	                                                            }
+                	                                            
+        	                                                    //Check to ensure that the image path insn't blank, if it is, then this is a blank node and shouldn't be displayed.
+        	                                                    if (l6ImagePath != "")
+        	                                                    {
+	                                                                //Display level 5 information.
+	                                                                text += "<tr>";
+	                                                                    text += "<td>";
+	                                                                        //Check the image path from the XML document.
+	                                                                        if (l6ImagePath != "leaf")
+	                                                                        {
+	                                                                            //The image isn't a leaf, meaning that it contains sub-links, so check to see if this ID has been selected, or opened.
+	                                                                            if (l6ID == l6)
+	                                                                            {
+	                                                                                //Set the image to the open book version and the plusMinus path to the minus indicating that this ID has been selected.
+	                                                                                imagePath = l6ImagePath.replace("_","_open_");
+	                                                                                plusMinusPath = "minus.gif";
+	                                                                            }
+	                                                                            else
+	                                                                            {
+	                                                                                //Set the image to the closed book version and the plusMinus path to the plus indicating that this ID hasn't been selected and there's more below it.
+	                                                                                imagePath = l6ImagePath;
+	                                                                                plusMinusPath = "plus.gif";
+	                                                                            }
+	                                                                        }
+	                                                                        else
+	                                                                        {
+	                                                                            //There aren't any nodes past this level in the XML document, so set the image to the leaf and don't show a plusMinus image.
+	                                                                            imagePath = l6ImagePath;
+	                                                                            plusMinusPath = "blank.gif";
+	                                                                        }
+                	                                                        
+	                                                                        //If this node is selected, change the CSS treatment of it.
+	                                                                        if (l6ID == l6) cssTreatment = "selected";
+	                                                                        else cssTreatment = "unselected";
+                                            		                        
+                                    		                                //Set up the title variable.
+        	                                                                title = l1LinkText + ": " + l2LinkText + ": " + l3LinkText + ": " + l4LinkText + ": " + l5LinkText + ": " + l6LinkText;
+                	                                
+	                                                                        text += "<table cellpadding='0' cellspacing='0'>";
+	                                                                            text += "<tr>";
+	                                                                                text += "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+	                                                                                text += "<td width='40'>";
+	                                                                                    text += "<a href='index.html?l1=" + l1ID + "&l2=" + l2ID + "&l3=" + l3ID + "&l4=" + l4ID + "&l5=" + l5ID + "&l6=" + l6ID + "&page=" + l6LinkPath + "&title=" + title + "' target='_top'><img src='images/img/" + plusMinusPath + "' alt='" + l6LinkText + "' /><img src='images/img/" + imagePath + ".gif' alt='" + l6LinkText + "' /></a>&nbsp;";
+	                                                                                text += "</td>";
+	                                                                                text += "<td class='" + cssTreatment + "'>";
+	                                                                                    text += "<a href='index.html?l1=" + l1ID + "&l2=" + l2ID + "&l3=" + l3ID + "&l4=" + l4ID + "&l5=" + l5ID + "&l6=" + l6ID + "&page=" + l6LinkPath + "&title=" + title + "' target='_top'>" + l6LinkText + "</a>";
+	                                                                                text += "</td>";
+	                                                                            text += "</tr>";
+	                                                                        text += "</table>";
+	                                                                    text += "</td>";
+	                                                                text += "</tr>";
+	                                                            }
+	                                                        }
+	                                                    }
+    		                                        }
+	                                            }
+    		                                }
+	                                    }
+    		                        }
+	                            }
+    		                }
+	                    }
+                    }
+                text += "</table>";
+    			
+		        //Fill the DIV tag with the text information from above.
+			    oDiv.innerHTML += text;
+    			
+			    //Add our DIV tag to the body of the page.
+			    document.body.appendChild(oDiv);
+	        }
+        /*]]>*/
+        </script>
+    </body>
+</html>
